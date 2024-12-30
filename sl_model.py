@@ -5,11 +5,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import tensorflow as tf
 
-# Load the dataset
 data = pd.read_csv('all_stocks_5yr.csv', delimiter=',', on_bad_lines='skip')
 data['date'] = pd.to_datetime(data['date'])  # Convert date column to datetime
 
-# Function to preprocess data for a given company
 def preprocess_company_data(data, company_name):
     # Filter data for the selected company
     company_data = data[data['Name'] == company_name].sort_values(by='date')
@@ -17,8 +15,6 @@ def preprocess_company_data(data, company_name):
     # Scale the 'close' prices
     company_data['close_scaled'] = (company_data['close'] - company_data['close'].min()) / (
         company_data['close'].max() - company_data['close'].min())
-    
-    # Split into training and testing datasets
     train_size = int(len(company_data) * 0.8)
     train_data = company_data['close_scaled'].iloc[:train_size].values
     test_data = company_data['close_scaled'].iloc[train_size:].values
@@ -40,9 +36,6 @@ def preprocess_company_data(data, company_name):
     X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
     
     return company_data, X_train, y_train, X_test, y_test
-
-# Function to build and train the RNN model
-# Function to build and train the Bidirectional RNN model
 def build_and_train_bi_rnn(X_train, y_train, X_test, y_test):
     from tensorflow.keras.callbacks import EarlyStopping
     
@@ -54,38 +47,31 @@ def build_and_train_bi_rnn(X_train, y_train, X_test, y_test):
         # Second Bidirectional RNN layer
         tf.keras.layers.Bidirectional(tf.keras.layers.SimpleRNN(64, return_sequences=False)),
         tf.keras.layers.Dropout(0.2),  # Dropout again
-        
-        # Dense output layer
         tf.keras.layers.Dense(1)
     ])
      
-    # Compile the model with Adam optimizer and Mean Squared Error loss
     model.compile(optimizer='adam', loss='mean_squared_error')
     
-    # Add EarlyStopping to monitor validation loss and stop training early if no improvement
+    # Add EarlyStopping
     early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
-    
-    # Train the model
+
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=50, batch_size=32, callbacks=[early_stopping])
     
     return model
 
 
-# Function to predict and visualize results
 def predict_and_visualize(model, company_data, X_train, X_test, y_train, y_test, time_step=60):
     # Predictions
     train_predict = model.predict(X_train)
     test_predict = model.predict(X_test)
     
-    # Rescale predictions back to original scale
     min_close = company_data['close'].min()
     max_close = company_data['close'].max()
     train_predict = train_predict * (max_close - min_close) + min_close
     test_predict = test_predict * (max_close - min_close) + min_close
     y_train_actual = y_train * (max_close - min_close) + min_close
     y_test_actual = y_test * (max_close - min_close) + min_close
-    
-    # Visualization
+
     plt.figure(figsize=(10, 6))
     plt.plot(company_data['date'], company_data['close'], label='Actual Prices', color='blue')
     plt.plot(company_data['date'].iloc[time_step:time_step + len(train_predict)], train_predict, label='Train Predictions', color='green')
@@ -96,14 +82,11 @@ def predict_and_visualize(model, company_data, X_train, X_test, y_train, y_test,
     plt.legend()
     plt.show()
 
-
-# Display available companies
-# Function to display companies grouped by the first letter
 def display_companies_grouped(data):
     unique_companies = sorted(data['Name'].unique())  # Get unique, sorted company names
     grouped_companies = {}
 
-    # Group companies by their first letter
+    # Group compinies by their first letter
     for company in unique_companies:
         key = company[0].upper()
         if key not in grouped_companies:
