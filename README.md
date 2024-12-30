@@ -72,7 +72,7 @@ cd <repository_name>
 ---
 
 ## Future Plans
-1. **Web Application**: Integrate the model into a web application for real-time stock predictions.
+1. **Update the Dataset**: As collecting data a tedious process I would try to populate the dataset with relatively newer info.
 2. **Technical Indicators**: Enhance model input with popular technical indicators like RSI, MACD, and Bollinger Bands for improved accuracy.
 3. **Portfolio Analysis**: Extend the model to analyze and predict portfolios of stocks.
 
