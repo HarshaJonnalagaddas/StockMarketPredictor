@@ -17,6 +17,8 @@ LSTMs are an advanced variant of RNNs that address the problem of long-term depe
 ### Bidirectional LSTM
 A Bidirectional LSTM processes input sequences in both forward and backward directions, capturing dependencies from past and future states. This dual approach improves the model's prediction accuracy.
 
+![image](https://github.com/user-attachments/assets/51488648-ade0-4f0e-80b4-b33297455268)
+
 ---
 
 ## File Descriptions
