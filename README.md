@@ -1,82 +1,75 @@
-# Stock Market Prediction using RNN - Jonnalagadda Sri Harsha
+# Stock Market Prediction using RNNs and FinBERT - Jonnalagadda Sri Harsha
 
-## Introduction
-This repository contains two implementations for stock market prediction using Recurrent Neural Networks (RNN). The files include:
+## 🔍 Introduction
+This repository provides a comprehensive exploration of deep learning models for stock market prediction. It includes:
 
-1. **`stock.ipynb`**: A sample notebook designed for understanding stock market data, performing Exploratory Data Analysis (EDA), and applying basic machine learning techniques.
-2. **`sl_model.py`**: A generalized solution for stock prediction using a dynamic Bidirectional LSTM model, enabling improved training and evaluation.
+- Exploratory data analysis and traditional forecasting methods.
+- Implementation and **comparative analysis** of RNN-based models: **RNN**, **LSTM**, **GRU**, and **Bidirectional LSTM (BiLSTM)**.
+- A hybrid **BiLSTM + FinBERT** architecture integrating sentiment analysis from real-time financial news headlines.
 
-## Background
+---
 
-### Recurrent Neural Networks (RNN)
-RNNs are specialized neural networks for sequential data. They allow information to persist by looping through the network, making them suitable for time-series prediction tasks.
+## 📁 Project Structure
 
-### Long Short-Term Memory (LSTM)
-LSTMs are an advanced variant of RNNs that address the problem of long-term dependency. By utilizing gates (input, forget, and output), LSTMs retain relevant past information effectively.
+| File/Notebook       | Description |
+|---------------------|-------------|
+| `stock.ipynb`       | Notebook for stock market EDA, visualizations, and basic modeling. |
+| `sl_model.py`       | Dynamic BiLSTM-based stock price prediction model. |
+| `compare.py`        | **Comparative analysis** of RNN, LSTM, GRU, and BiLSTM models using PyTorch. |
+| `fibertLSTM.py`     | **Hybrid model** combining BiLSTM with FinBERT-based news sentiment for enhanced prediction. |
 
-### Bidirectional LSTM
-A Bidirectional LSTM processes input sequences in both forward and backward directions, capturing dependencies from past and future states. This dual approach improves the model's prediction accuracy.
+---
 
+## 🧠 Background
+
+### ⏱ Recurrent Neural Networks (RNNs)
+RNNs process sequential data, making them ideal for time-series tasks such as stock prediction. However, they struggle with long-term dependencies.
+
+### 💡 LSTM and GRU
+- **LSTM (Long Short-Term Memory)** introduces memory gates to capture long-range dependencies effectively.
+- **GRU (Gated Recurrent Unit)** is a simplified version of LSTM with similar performance but fewer parameters.
+
+### 🔁 Bidirectional LSTM
+Processes sequences in both forward and backward directions, capturing a richer context.
 ![image](https://github.com/user-attachments/assets/51488648-ade0-4f0e-80b4-b33297455268)
+### 📰 FinBERT for Sentiment
+[FinBERT](https://huggingface.co/ProsusAI/finbert) is a pre-trained NLP model tuned on financial texts. It helps capture **sentiment polarity** from recent news headlines, integrated into stock price predictions.
 
 ---
 
-## File Descriptions
+## 📊 Comparative Model Insights
 
-### 1. `stock.ipynb`
-This notebook:
-- Explores stock market data.
-- Performs data cleaning and visualization.
-- Implements basic data preprocessing techniques for sequential modeling.
-- Provides insights into feature engineering and initial modeling.
+Run `compare.py` to visualize and compare the performance of:
 
-This file is intended for those new to stock prediction and data analysis, serving as a hands-on introduction.
+- ✅ RNN
+- ✅ LSTM
+- ✅ GRU
+- ✅ BiLSTM
 
-### 2. `sl_model.py`
-This Python script:
-- Implements a dynamic Bidirectional LSTM model to predict stock prices.
-- Provides a streamlined and generalized solution for training RNN models on different stocks.
-- Includes the following features:
-  - Data preprocessing for individual company stock data.
-  - Training and testing set creation with time-step-based sequences.
-  - Bidirectional LSTM model design with Dropout layers to reduce overfitting.
-  - EarlyStopping for efficient training.
-  - Visualization of prediction results.
+Each model is trained on the same dataset and their predictions are plotted side by side for evaluation.
 
 ---
 
-## Initialization and Requirements
+## 🧠 FinBERT + BiLSTM Hybrid (fibertLSTM.py)
 
-### Prerequisites
-- Install Python 3.8 or above.
-- Install required libraries using:
+This advanced script:
+- Fetches the latest stock prices (2019–2025).
+- Gathers recent news headlines using `StockNews` RSS.
+- Applies FinBERT sentiment scoring to each headline.
+- Integrates sentiment with BiLSTM predictions using a linear combination.
+- Visualizes:
+  - BiLSTM-only predictions
+  - BiLSTM + FinBERT-enhanced predictions
+
+---
+
+## ⚙️ Requirements
+
+Install dependencies using:
 
 ```bash
 pip install -r requirements.txt
-```
 
-### Dataset
-The dataset used for these implementations is `all_stocks_5yr.csv`. It contains historical stock prices for various companies over five years.
-
-### Usage
-1. Clone the repository:
-```bash
-git clone <repository_url>
-cd <repository_name>
-```
-
-2. Run `stock.ipynb` for initial data exploration and analysis.
-
-3. Execute `sl_model.py` for end-to-end stock prediction. The script prompts you to select a company for prediction.
-
----
-
-## Future Plans
-1. **Update the Dataset**: As collecting data a tedious process I would try to populate the dataset with relatively newer info.
-2. **Technical Indicators**: Enhance model input with popular technical indicators like RSI, MACD, and Bollinger Bands for improved accuracy.
-3. **Portfolio Analysis**: Extend the model to analyze and predict portfolios of stocks.
-
----
 
 ## Contribution
 Feel free to contribute by raising issues or submitting pull requests. Suggestions for improvement and collaboration are welcome!
